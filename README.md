@@ -1,0 +1,3 @@
+# Simple Web Scraper and Email Notifier
+
+This is a simple script using `BeautifulSoup` and `smtplib` to send a notification email to designated receivers containing a list of deals found on RedFlagDeals that match a given list of terms that the user is interested in. It parses all the current pages of the forum discussions and scrapes the titles of the discussions for the relevant terms, and adds it to the match list when a term is hit.
