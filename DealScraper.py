@@ -6,8 +6,8 @@ from vars import *
 
 page = 1
 base = 'https://forums.redflagdeals.com'
-url = 'https://forums.redflagdeals.com/hot-deals-f9/' + str(page)
-terms = ['144p', '2560', '1440', '27"' , 'Dell', 'U27']
+prependUrl = 'https://forums.redflagdeals.com/hot-deals-f9/'
+url = prependUrl + str(page)
 matches = []
 pages = []
 
@@ -29,14 +29,13 @@ while page <= maxPages:
         for link in links:
             if term in link.text.strip():
                 if link.text.strip() not in matches:
-                    print('Match!')
                     matches.append(link.text.strip())
                     pages.append({"text": link.text.strip(), "url": base + link['href']})
     
     page += 1
-    url = 'https://forums.redflagdeals.com/hot-deals-f9/' + str(page)
-    print('Moving to page ' + str(page))
-    print(str(len(matches)) + ' found so far...\n')
+    url = prependUrl + str(page)
+
+print('Pages scraped: ' + str(page) + ", " + str(len(matches)) + " matches\n")
 
 print('Creating Server')
 server = smtplib.SMTP_SSL('smtp.gmail.com')
