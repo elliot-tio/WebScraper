@@ -37,46 +37,50 @@ while page <= maxPages:
 
 print('Pages scraped: ' + str(page) + ", " + str(len(matches)) + " matches\n")
 
-print('Creating Server')
-server = smtplib.SMTP_SSL('smtp.gmail.com')
-print('Logging in...')
-server.login(sender, password)
-print('Constructing Message...')
+if len(matches) > 0:
+    print('Creating Server')
+    server = smtplib.SMTP_SSL('smtp.gmail.com')
+    print('Logging in...')
+    server.login(sender, password)
+    print('Constructing Message...')
 
-htmlList = """\
-<ul>
-"""
-for page in pages:
-    htmlList += """\
-        <li>
-            <a href="$(url)">$(text)</a>
-        </li>
+    htmlList = """\
+    <ul>
     """
-    htmlList = htmlList.replace("$(url)", page['url'])
-    htmlList = htmlList.replace("$(text)", page['text'])
+    for page in pages:
+        htmlList += """\
+            <li>
+                <a href="$(url)">$(text)</a>
+            </li>
+        """
+        htmlList = htmlList.replace("$(url)", page['url'])
+        htmlList = htmlList.replace("$(text)", page['text'])
 
-htmlList += """\
-</ul>
-"""
+    htmlList += """\
+    </ul>
+    """
 
-body = """\
-<html>
-    <body>
-        <p>Here's a list of interesting deals</p>
-        $(htmlList)
-    </body>
-</html>
-"""
+    body = """\
+    <html>
+        <body>
+            <p>Here's a list of interesting deals</p>
+            $(htmlList)
+        </body>
+    </html>
+    """
 
-body = body.replace("$(htmlList)", htmlList)
-msg = MIMEText(body, 'HTML')
+    body = body.replace("$(htmlList)", htmlList)
+    msg = MIMEText(body, 'HTML')
 
-msg['Subject'] = "Found some Deals!"
-msg['From'] = sender
-msg['To'] = receiver
+    msg['Subject'] = "Found some Deals!"
+    msg['From'] = sender
+    msg['To'] = receiver
 
-print('Sending Message...')
-server.sendmail(sender, [receiver], msg.as_string())
-print('Message Sent!')
-server.quit()
+    print('Sending Message...')
+    server.sendmail(sender, [receiver], msg.as_string())
+    print('Message Sent!')
+    server.quit()
+else:
+    print('No matches today :(')    
+
 print('Program terminated.')
