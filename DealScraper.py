@@ -1,9 +1,19 @@
 from bs4 import BeautifulSoup
 import requests
 import smtplib
+import sys
 from email.mime.text import MIMEText
 from vars import *
 
+if len(sys.argv) != 2:
+    print('Usage: python DealScraper.py search_term_set')
+    quit()
+elif not terms.get(sys.argv[1]):
+    print('Search term set "' + sys.argv[1] + '" not found.')
+    print('Current sets: ' + ', '.join(terms.keys()))
+    quit()
+
+print('Using set: ' + sys.argv[1] + ', ' + str(terms.get(sys.argv[1])))
 page = 1
 base = 'https://forums.redflagdeals.com'
 prependUrl = 'https://forums.redflagdeals.com/hot-deals-f9/'
@@ -25,7 +35,7 @@ while page <= maxPages:
     soup = BeautifulSoup(response.text, 'html5lib')
     links = soup.findAll(class_='topic_title_link')
 
-    for term in terms:
+    for term in terms.get(sys.argv[1]):
         for link in links:
             if term in link.text.strip():
                 if link.text.strip() not in matches:
