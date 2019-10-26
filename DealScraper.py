@@ -7,6 +7,9 @@ from vars import *
 
 if len(sys.argv) != 2:
     print('Usage: python DealScraper.py search_term_set')
+    print('Current search_term_sets available:\n')
+    for term in terms.keys():
+        print(term)
     quit()
 elif not terms.get(sys.argv[1]):
     print('Search term set "' + sys.argv[1] + '" not found.')
