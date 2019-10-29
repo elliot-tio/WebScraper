@@ -10,13 +10,18 @@ if len(sys.argv) != 2:
     print('Current search_term_sets available:\n')
     for term in terms.keys():
         print(term)
+    print('all - for all search terms')
     quit()
+elif sys.argv[1] == 'all':
+    terms['all'] = sum(terms.values(), [])
+    print('Using all sets: ' + ', '.join(terms.keys()) + ', ' + str(terms.get(sys.argv[1])))
 elif not terms.get(sys.argv[1]):
     print('Search term set "' + sys.argv[1] + '" not found.')
     print('Current sets: ' + ', '.join(terms.keys()))
     quit()
+else:
+    print('Using set: ' + sys.argv[1] + ', ' + str(terms.get(sys.argv[1])))
 
-print('Using set: ' + sys.argv[1] + ', ' + str(terms.get(sys.argv[1])))
 page = 1
 base = 'https://forums.redflagdeals.com'
 prependUrl = 'https://forums.redflagdeals.com/hot-deals-f9/'
@@ -44,7 +49,7 @@ while page <= maxPages:
                 if link.text.strip() not in matches:
                     matches.append(link.text.strip())
                     pages.append({"text": link.text.strip(), "url": base + link['href']})
-    
+        
     page += 1
     url = prependUrl + str(page)
 
