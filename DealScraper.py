@@ -13,8 +13,8 @@ if len(sys.argv) != 2:
     print('all - for all search terms')
     quit()
 elif sys.argv[1] == 'all':
+    print('Using all sets: ' + ', '.join(terms.keys()))
     terms['all'] = sum(terms.values(), [])
-    print('Using all sets: ' + ', '.join(terms.keys()) + ', ' + str(terms.get(sys.argv[1])))
 elif not terms.get(sys.argv[1]):
     print('Search term set "' + sys.argv[1] + '" not found.')
     print('Current sets: ' + ', '.join(terms.keys()))
@@ -102,3 +102,6 @@ else:
     print('No matches today :(')    
 
 print('Program terminated.')
+
+
+# TODO: top matches, template file, new today/this week, add/edit sets, separate different sets in email
